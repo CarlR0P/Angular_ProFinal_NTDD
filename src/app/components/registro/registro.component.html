@@ -3,35 +3,38 @@
     <div class="col-md-6">
       <h2 class="text-center mb-4 text-white">Registro de Usuario</h2>
 
-      <form>
+      <form (ngSubmit)="registrar()">
         <div class="mb-3">
           <label for="username" class="form-label text-white">Nombre de Usuario</label>
-          <input type="text" class="form-control" id="username" placeholder="Ingrese un nombre de usuario">
+          <input type="text" class="form-control" id="username" [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario" required>
         </div>
 
         <div class="mb-3">
           <label for="nombres" class="form-label text-white">Nombres</label>
-          <input type="text" class="form-control" id="nombres" placeholder="Ingrese sus nombres">
+          <input type="text" class="form-control" id="nombres" [(ngModel)]="usuario.nombre" name="nombre" required>
         </div>
 
         <div class="mb-3">
           <label for="apellidos" class="form-label text-white">Apellidos</label>
-          <input type="text" class="form-control" id="apellidos" placeholder="Ingrese sus apellidos">
+          <input type="text" class="form-control" id="apellidos" [(ngModel)]="usuario.apellido" name="apellido" required>
         </div>
 
         <div class="mb-3">
           <label for="email" class="form-label text-white">Correo Electrónico</label>
-          <input type="email" class="form-control" id="email" placeholder="Ingrese su correo">
+          <input type="email" class="form-control" id="email" [(ngModel)]="usuario.correo" name="correo" required>
         </div>
 
         <div class="mb-3">
           <label for="password" class="form-label text-white">Contraseña</label>
-          <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña">
+          <input type="password" class="form-control" id="password" [(ngModel)]="usuario.clave" name="clave" required>
         </div>
+
+        <!-- Puedes dejar esto fijo o usar un <select> si planeas múltiples roles -->
+        <input type="hidden" [(ngModel)]="usuario.rol" name="rol">
 
         <div class="d-flex justify-content-between">
           <button type="submit" class="btn btn-primary">Registrarme</button>
-          <a class="btn btn-secondary" href="">Regresar</a>
+          <button type="button" class="btn btn-secondary" (click)="regresar()">Regresar</button>
         </div>
       </form>
     </div>

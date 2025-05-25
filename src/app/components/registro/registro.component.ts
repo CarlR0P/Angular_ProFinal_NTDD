@@ -31,7 +31,7 @@ export class RegistroComponent {
       next: (res) => {
         console.log('Registro exitoso', res);
         // Redirigir al login u otra página
-        this.router.navigate(['/login']);
+        this.router.navigate(['']);
       },
       error: (err) => {
         console.error('Error durante el registro', err);

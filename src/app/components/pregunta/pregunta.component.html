@@ -1,0 +1,109 @@
+<div class="container mt-4">
+  <h2>{{ preguntaEditando ? 'Editar Pregunta' : 'Nueva Pregunta' }}</h2>
+
+  <form (ngSubmit)="guardarPregunta()">
+    <div class="mb-3">
+      <label for="enunciado" class="form-label">Enunciado</label>
+      <input
+        type="text"
+        class="form-control"
+        id="enunciado"
+        [(ngModel)]="form.enunciado"
+        name="enunciado"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="categoria" class="form-label">Categoría</label>
+      <select
+        class="form-select"
+        id="categoria"
+        [(ngModel)]="form.categoria"
+        name="categoria"
+        required
+      >
+        <option [ngValue]="null" disabled>Seleccione una categoría</option>
+        <option *ngFor="let c of categorias" [ngValue]="c._id">
+          {{ c.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Opciones</label>
+      <div *ngFor="let opcion of form.opciones; let i = index" class="input-group mb-2">
+        <div class="input-group-text">
+          <input
+            type="radio"
+            name="correcta"
+            [value]="i"
+            [(ngModel)]="indiceCorrecto"
+          />
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="form.opciones[i].opcion"
+          name="opcion{{ i }}"
+          placeholder="Opción {{ i + 1 }}"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary">
+        {{ preguntaEditando ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="cancelarEdicion()" *ngIf="preguntaEditando">
+        Cancelar
+      </button>
+    </div>
+  </form>
+
+  <hr />
+
+  <h3>Listado de Preguntas</h3>
+
+  <div class="mb-3">
+    <label for="filtroCategoria" class="form-label">Filtrar por Categoría</label>
+    <select
+      class="form-select"
+      id="filtroCategoria"
+      [(ngModel)]="categoriaSeleccionada"
+      (change)="cargarPreguntas()"
+      name="filtroCategoria"
+    >
+      <option [ngValue]="null">Todas las categorías</option>
+      <option *ngFor="let c of categorias" [ngValue]="c._id">
+        {{ c.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Enunciado</th>
+        <th>Categoría</th>
+        <th class="text-center"># Opciones</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of preguntas">
+        <td>{{ p.enunciado }}</td>
+        <td>{{ obtenerNombreCategoria(p.categoria) }}</td>
+        <td class="text-center">{{ p.opciones.length }}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-warning me-2" (click)="prepararEdicionPregunta(p)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminarPregunta(p._id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="preguntas.length === 0">
+        <td colspan="4" class="text-center">No hay preguntas registradas.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

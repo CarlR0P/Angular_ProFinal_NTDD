@@ -5,11 +5,15 @@ import { PartidaComponent } from './components/partida/partida.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { InicioSesionComponent } from './components/inicio-sesion/inicio-sesion.component';
 import { RegistroComponent } from './components/registro/registro.component';
+import { PreguntaComponent } from './components/pregunta/pregunta.component';
+import { CategoriaComponent } from './components/categoria/categoria.component';
 
 export const routes: Routes = [
     {path: '', component: InicioComponent},
     {path: 'login', component: InicioSesionComponent},
     {path: 'registro', component: RegistroComponent },
     {path: 'partida', component: PartidaComponent},
-    {path: 'historialPartidas', component: HistorialPartidasComponent}
+    {path: 'historialPartidas', component: HistorialPartidasComponent},
+    {path: 'pregunta', component: PreguntaComponent},
+    {path: 'categoria', component: CategoriaComponent}
 ];

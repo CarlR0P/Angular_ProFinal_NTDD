@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriaService } from '../../services/categoria.service';
 import type { Categoria } from '../../services/categoria.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-categoria',
-  templateUrl: './categoria.component.html'
+  templateUrl: './categoria.component.html',
+  imports: [FormsModule, CommonModule]
 })
 export class CategoriaComponent implements OnInit {
 
@@ -29,15 +32,22 @@ export class CategoriaComponent implements OnInit {
     });
   }
 
-  crearCategoria(): void {
-    if (!this.nuevaCategoria.trim()) return;
+crearCategoria(): void {
+  const nombre = this.nuevaCategoria.trim();
+  if (!nombre) return;
 
-    const categoria: Categoria = { nombre: this.nuevaCategoria };
-    this.categoriaService.crearCategoria(categoria).subscribe(() => {
-      this.nuevaCategoria = '';
-      this.cargarCategorias();
-    });
+  // Validar duplicados al crear
+  if (this.categorias.some(cat => cat.nombre.toLowerCase() === nombre.toLowerCase())) {
+    alert('Ya existe una categoría con ese nombre.');
+    return;
   }
+
+  const categoria: Categoria = { nombre };
+  this.categoriaService.crearCategoria(categoria).subscribe(() => {
+    this.nuevaCategoria = '';
+    this.cargarCategorias();
+  });
+}
 
   prepararEdicion(categoria: Categoria): void {
     this.categoriaEditando = { ...categoria };
@@ -49,22 +59,32 @@ export class CategoriaComponent implements OnInit {
     this.nombreEditado = '';
   }
 
-  actualizarCategoria(): void {
-    if (!this.categoriaEditando || !this.nombreEditado.trim()) return;
+ actualizarCategoria(): void {
+  if (!this.categoriaEditando) return;
 
-    const categoriaActualizada: Categoria = {
-      _id: this.categoriaEditando._id,
-      nombre: this.nombreEditado
-    };
+  const nombre = this.nombreEditado.trim();
+  if (!nombre) return;
 
-    this.categoriaService.actualizarCategoria(categoriaActualizada._id!, categoriaActualizada)
-      .subscribe(() => {
-        this.categoriaEditando = null;
-        this.nombreEditado = '';
-        this.cargarCategorias();
-      });
+  // Validar duplicados al actualizar (ignorando la categoría que se está editando)
+  if (this.categorias.some(cat => 
+    cat.nombre.toLowerCase() === nombre.toLowerCase() && cat._id !== this.categoriaEditando!._id
+  )) {
+    alert('Ya existe una categoría con ese nombre.');
+    return;
   }
 
+  const categoriaActualizada: Categoria = {
+    _id: this.categoriaEditando._id,
+    nombre
+  };
+
+  this.categoriaService.actualizarCategoria(categoriaActualizada._id!, categoriaActualizada)
+    .subscribe(() => {
+      this.categoriaEditando = null;
+      this.nombreEditado = '';
+      this.cargarCategorias();
+    });
+}
   eliminarCategoria(id: string): void {
     if (confirm('¿Estás seguro de eliminar esta categoría?')) {
       this.categoriaService.eliminarCategoria(id).subscribe(() => {

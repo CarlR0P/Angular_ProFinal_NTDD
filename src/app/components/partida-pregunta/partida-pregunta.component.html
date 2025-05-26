@@ -1,1 +1,20 @@
-<p>partida-pregunta works!</p>
+<div *ngIf="pregunta">
+  <h3 class="text-white">{{ pregunta.enunciado }}</h3>
+
+  <div class="list-group my-3">
+    <button
+      *ngFor="let op of pregunta.opciones"
+      (click)="responder(op.opcion)"
+      [disabled]="feedbackVisible"
+      class="list-group-item list-group-item-action"
+      [ngClass]="{
+        'bg-success text-white': feedbackVisible && op.opcion === respuestaCorrecta,
+        'bg-danger text-white': feedbackVisible && seleccionada === op.opcion && op.opcion !== respuestaCorrecta
+      }"
+    >
+      {{ op.opcion }}
+    </button>
+  </div>
+
+  <div class="text-white">Tiempo restante: {{ contador }}s</div>
+</div>

@@ -18,6 +18,9 @@ export class CategoriaService {
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.apiUrl);
   }
+  obtenerCategorias(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/categorias');
+  }
 
   getCategoria(id: string): Observable<Categoria> {
     return this.http.get<Categoria>(`${this.apiUrl}/${id}`);

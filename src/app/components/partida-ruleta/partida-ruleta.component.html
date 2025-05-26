@@ -1,6 +1,9 @@
-<div class="text-center mt-5">
-  <h2 class="text-white mb-4">Girando la ruleta...</h2>
-  <div class="spinner-border text-light" role="status" *ngIf="girando">
-    <span class="visually-hidden">Cargando...</span>
+<div class="ruleta-container">
+  <div class="ruleta" [ngStyle]="{'transform': 'rotate(' + rotacion + 'deg)'}">
+    <div class="segmento" *ngFor="let cat of categorias; let i = index"
+         [ngStyle]="getEstiloSegmento(i)">
+      <span>{{ cat.nombre }}</span>
+    </div>
   </div>
+  <button class="btn-girar" (click)="girarRuleta()">Girar ruleta</button>
 </div>

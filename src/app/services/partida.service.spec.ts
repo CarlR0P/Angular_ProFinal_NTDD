@@ -1,16 +1,35 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { PartidaService } from './partida.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class PartidaService {
+  private baseUrl = 'http://localhost:3000'; // Cambia al dominio/puerto correcto
 
-describe('PartidaService', () => {
-  let service: PartidaService;
+  constructor(private http: HttpClient) {}
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(PartidaService);
-  });
+  crearPartida(idUsuario: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/partidas`, { idUsuario });
+  }
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  girarRuleta(idPartida: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/partidas/${idPartida}/ruleta`);
+  }
+
+  obtenerPregunta(idPartida: string, idCategoria: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/partidas/${idPartida}/categoria/${idCategoria}/pregunta`);
+  }
+
+  responderPregunta(idPartida: string, idPregunta: string, respuestaSeleccionada: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/partidas/${idPartida}/responder`, {
+      idPregunta,
+      respuestaSeleccionada
+    });
+  }
+
+  obtenerResumen(idPartida: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/partidas/${idPartida}/resumen`);
+  }
+}

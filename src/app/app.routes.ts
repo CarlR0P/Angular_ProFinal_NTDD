@@ -10,6 +10,7 @@ import { PartidaInicioComponent } from './components/partida-inicio/partida-inic
 import { PartidaPreguntaComponent } from './components/partida-pregunta/partida-pregunta.component';
 import { PartidaRuletaComponent } from './components/partida-ruleta/partida-ruleta.component';
 import { MenuAdminComponent } from './components/menu-admin/menu-admin.component';
+import { ResultadosComponent } from './components/partida-resumen/partida-resumen.components';
 
 export const routes: Routes = [
     {path: '', component: InicioComponent},
@@ -22,5 +23,6 @@ export const routes: Routes = [
     {path: 'partidaInicio', component: PartidaInicioComponent},
     {path: 'partidaPregunta', component: PartidaPreguntaComponent},
     {path: 'partidaRuleta', component: PartidaRuletaComponent},
-    {path: 'menu-admin', component: MenuAdminComponent}
+    {path: 'menu-admin', component: MenuAdminComponent},
+    { path: 'resultados/:id', component: ResultadosComponent }
 ];

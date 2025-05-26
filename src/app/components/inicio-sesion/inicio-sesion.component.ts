@@ -12,10 +12,10 @@ import { AutenticacionService } from '../../services/autenticacion.service';
   styleUrls: ['./inicio-sesion.component.css']
 })
 export class InicioSesionComponent {
-  correo: string = '';
-  clave: string = '';
-  mensaje: string = '';
-  esError: boolean = false;
+  correo = '';
+  clave = '';
+  mensaje = '';
+  esError = false;
 
   constructor(
     private authService: AutenticacionService,
@@ -23,18 +23,25 @@ export class InicioSesionComponent {
   ) {}
 
   iniciarSesion() {
-    const payload = {
-      correo: this.correo,
-      clave: this.clave
-    };
+    const payload = { correo: this.correo, clave: this.clave };
 
     this.authService.iniciarSesion(payload).subscribe({
       next: res => {
-        if (res.auth) {
-          localStorage.setItem('token', res.token);
-          this.esError = false;
-          this.mensaje = res.message;
-          setTimeout(() => this.router.navigate(['/menu-jugador']), 1500);
+        const token = res.token;
+        localStorage.setItem('token', token);
+
+        // Decodificar rol del JWT
+        const jwtPayload = JSON.parse(atob(token.split('.')[1]));
+        const rol = (jwtPayload.rol || '').toLowerCase();
+
+        this.esError = false;
+        this.mensaje = res.message;
+
+        // Redirigir según rol
+        if (rol === 'administrador') {
+          this.router.navigate(['/menu-admin']);
+        } else {
+          this.router.navigate(['/menu-jugador']);
         }
       },
       error: err => {

@@ -14,7 +14,6 @@ import { AutenticacionService } from '../../services/autenticacion.service';
 export class InicioSesionComponent {
   correo: string = '';
   clave: string = '';
-  rememberMe: boolean = false;
   mensaje: string = '';
   esError: boolean = false;
 
@@ -32,12 +31,10 @@ export class InicioSesionComponent {
     this.authService.iniciarSesion(payload).subscribe({
       next: res => {
         if (res.auth) {
+          localStorage.setItem('token', res.token);
           this.esError = false;
           this.mensaje = res.message;
-          // Si quieres guardar token o manejar sesión:
-          // localStorage.setItem('token', res.token);
-          // Redirigir tras un pequeño retardo:
-          setTimeout(() => this.router.navigate(['/']), 1500);
+          setTimeout(() => this.router.navigate(['/menu-jugador']), 1500);
         }
       },
       error: err => {

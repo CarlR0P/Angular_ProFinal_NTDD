@@ -15,5 +15,6 @@ export const routes: Routes = [
     {path: 'partida', component: PartidaComponent},
     {path: 'historialPartidas', component: HistorialPartidasComponent},
     {path: 'pregunta', component: PreguntaComponent},
-    {path: 'categoria', component: CategoriaComponent}
+    {path: 'categoria', component: CategoriaComponent},
+    {path: 'menu-jugador', component: MenuJugadorComponent}
 ];

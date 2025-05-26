@@ -1,66 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PartidaService } from '../../services/partida.service';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+
+interface RespuestaUsuario {
+  preguntaId: string;
+  preguntaTexto: string;
+  respuestaUsuario: string;
+  respuestaCorrecta: string;
+  correcta: boolean;
+}
 
 @Component({
   selector: 'app-partida-pregunta',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './partida-pregunta.component.html'
+  templateUrl: './partida-pregunta.component.html',
+  styleUrls: ['./partida-pregunta.component.css']
 })
-export class PartidaPreguntaComponent implements OnInit {
-  pregunta: any;
-  seleccionada: string | null = null;
-  respuestaCorrecta: string | null = null;
-  feedbackVisible = false;
-  contador: number = 15;
-  intervalo: any;
+export class PartidaPreguntaComponent {
+  respuestasUsuario: RespuestaUsuario[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private partidaService: PartidaService,
-    private router: Router
-  ) {}
 
-  ngOnInit(): void {
-    const idPartida = localStorage.getItem('idPartida');
-    const idCategoria = this.route.snapshot.paramMap.get('id');
-    if (idPartida && idCategoria) {
-      this.partidaService.obtenerPregunta(idPartida, idCategoria).subscribe(res => {
-        this.pregunta = res.preguntaSeleccionada;
-        this.iniciarTemporizador();
-      });
+  preguntaActual = {
+    _id: '123',
+    texto: '¿Cuál es la capital de Francia?',
+    respuestaCorrecta: 'París',
+    opciones: ['Madrid', 'París', 'Roma']
+  };
+
+  responder(respuestaSeleccionada: string) {
+    const correcta = respuestaSeleccionada === this.preguntaActual.respuestaCorrecta;
+
+    this.respuestasUsuario.push({
+      preguntaId: this.preguntaActual._id,
+      preguntaTexto: this.preguntaActual.texto,
+      respuestaUsuario: respuestaSeleccionada,
+      respuestaCorrecta: this.preguntaActual.respuestaCorrecta,
+      correcta
+    });
+
+    if (this.respuestasUsuario.length >= 5) {
+      localStorage.setItem('respuestasUsuario', JSON.stringify(this.respuestasUsuario));
+      
     }
   }
-
-  iniciarTemporizador() {
-    this.contador = 15;
-    this.intervalo = setInterval(() => {
-      this.contador--;
-      if (this.contador === 0) {
-        clearInterval(this.intervalo);
-        this.responder(null);
-      }
-    }, 1000);
-  }
-
-  responder(opcion: string | null) {
-  if (opcion === null) return; // Evita el error
-
-  clearInterval(this.intervalo);
-  this.seleccionada = opcion;
-
-  const idPartida = localStorage.getItem('idPartida');
-
-  this.partidaService.responderPregunta(idPartida!, this.pregunta._id, opcion).subscribe(resp => {
-    this.feedbackVisible = true;
-    this.respuestaCorrecta = this.pregunta.opciones.find((op: any) => op.correcta).opcion;
-
-    setTimeout(() => {
-      this.feedbackVisible = false;
-      this.router.navigate(['/partida/ruleta']);
-    }, 2000);
-  });
-}
 }

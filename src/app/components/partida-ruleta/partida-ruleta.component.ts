@@ -5,13 +5,16 @@ import { Renderer2 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-partida-ruleta',
   templateUrl: './partida-ruleta.component.html',
   styleUrls: ['./partida-ruleta.component.css']
 })
-export class PartidaRuletaComponent implements AfterViewInit {
+export class PartidaRuletaComponent implements AfterViewInit,OnInit {
+   tiempoRestante: number = 60; // Tiempo total en segundos
+  intervalId: any;
   categorias: any[] = [];
   angle: number = 0;
   private canvasInitialized = false;
@@ -21,10 +24,40 @@ export class PartidaRuletaComponent implements AfterViewInit {
     private categoriaService: CategoriaService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private renderer: Renderer2,
-    private cd : ChangeDetectorRef
+    private cd : ChangeDetectorRef,
+    private router: Router
     
   ) {}
+ngOnInit(): void {
+  this.iniciarTemporizador();
+}
 
+iniciarTemporizador(): void {
+  this.intervalId = setInterval(() => {
+    this.tiempoRestante--;
+    if (this.tiempoRestante <= 0) {
+      clearInterval(this.intervalId);
+      this.finalizarPartida();
+    }
+  }, 1000);
+}
+
+finalizarPartida(): void {
+  alert('⏰ ¡Se acabó el tiempo!');
+   const idUsuario = localStorage.getItem('idUsuario');
+  if (idUsuario) {
+     this.router.navigate(['/resultados']);
+  } else {
+    alert('No se encontró el id del usuario. Redirección fallida.');
+    
+  }
+}
+
+ngOnDestroy(): void {
+  if (this.intervalId) {
+    clearInterval(this.intervalId);
+  }
+}
   ngAfterViewInit(): void {
   this.categoriaService.getCategorias().subscribe(
     (categorias) => {

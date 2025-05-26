@@ -37,3 +37,26 @@
   margin-left: auto;
   margin-right: auto;
 }
+canvas {
+  transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+  transform-origin: center center;
+}
+
+.ruleta-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ #ruleta-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+
+#ruleta {
+  border: 4px solid white;
+  border-radius: 50%;
+  background: #222;
+}

@@ -16,11 +16,8 @@ export class CategoriaService {
   constructor(private http: HttpClient) {}
 
   getCategorias(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.apiUrl);
-  }
-  obtenerCategorias(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/api/categorias');
-  }
+  return this.http.get<Categoria[]>(`http://localhost:3000/api/categoria`);
+}
 
   getCategoria(id: string): Observable<Categoria> {
     return this.http.get<Categoria>(`${this.apiUrl}/${id}`);
@@ -37,4 +34,8 @@ export class CategoriaService {
   eliminarCategoria(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+ getCategoriaRuleta(idPartida: string): Observable<any> {
+  return this.http.get<any>(`http://localhost:3000/api/partidas/${idPartida}/ruleta`);
+}
 }

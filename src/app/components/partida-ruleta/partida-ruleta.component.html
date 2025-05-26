@@ -1,9 +1,7 @@
-<div class="ruleta-container">
-  <div class="ruleta" [ngStyle]="{'transform': 'rotate(' + rotacion + 'deg)'}">
-    <div class="segmento" *ngFor="let cat of categorias; let i = index"
-         [ngStyle]="getEstiloSegmento(i)">
-      <span>{{ cat.nombre }}</span>
-    </div>
-  </div>
-  <button class="btn-girar" (click)="girarRuleta()">Girar ruleta</button>
+<div id="ruleta-wrapper">
+  <canvas id="ruleta" width="400" height="400"></canvas>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button (click)="girar()">Girar ruleta</button>
 </div>

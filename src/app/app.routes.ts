@@ -7,14 +7,13 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { PreguntaComponent } from './components/pregunta/pregunta.component';
 import { CategoriaComponent } from './components/categoria/categoria.component';
 import { PartidaInicioComponent } from './components/partida-inicio/partida-inicio.component';
-import { PartidaPreguntaComponent } from './components/partida-pregunta/partida-pregunta.component';
 import { PartidaRuletaComponent } from './components/partida-ruleta/partida-ruleta.component';
 import { MenuAdminComponent } from './components/menu-admin/menu-admin.component';
-import { ResultadosComponent } from './components/partida-resumen/partida-resumen.components';
 import { UserComponent } from './components/usuario/usuario.component';
 
 export const routes: Routes = [
     {path: '', component: InicioComponent},
+    {path: 'inicio', component: InicioComponent},
     {path: 'login', component: InicioSesionComponent},
     {path: 'registro', component: RegistroComponent },
     {path: 'historialPartidas', component: HistorialPartidasComponent},
@@ -22,9 +21,7 @@ export const routes: Routes = [
     {path: 'categoria', component: CategoriaComponent},
     {path: 'menu-jugador', component: MenuJugadorComponent},
     {path: 'partidaInicio', component: PartidaInicioComponent},
-    {path: 'partidaPregunta', component: PartidaPreguntaComponent},
     {path: 'partidaRuleta', component: PartidaRuletaComponent},
     {path: 'menu-admin', component: MenuAdminComponent},
-    { path: 'resultados/:id', component: ResultadosComponent }
     {path: 'usuario', component: UserComponent}
 ];

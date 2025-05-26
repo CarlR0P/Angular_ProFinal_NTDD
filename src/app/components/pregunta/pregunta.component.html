@@ -101,7 +101,7 @@
           <button class="btn btn-sm btn-danger" (click)="eliminarPregunta(p._id)">Eliminar</button>
         </td>
       </tr>
-      <tr *ngIf="preguntas.length === 0">
+      <tr *ngIf="!hayPreguntas">
         <td colspan="4" class="text-center">No hay preguntas registradas.</td>
       </tr>
     </tbody>

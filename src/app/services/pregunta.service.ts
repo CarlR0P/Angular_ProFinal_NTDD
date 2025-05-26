@@ -18,12 +18,12 @@ export interface Pregunta {
   providedIn: 'root'
 })
 export class PreguntaService {
-  private apiUrl = 'http://localhost:3000/api/preguntas';
+  private apiUrl = '/api/preguntas';
 
   constructor(private http: HttpClient) {}
 
-  getPreguntas(): Observable<Pregunta[]> {
-    return this.http.get<Pregunta[]>(this.apiUrl);
+  getPreguntas(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
   getPregunta(id: string): Observable<Pregunta> {

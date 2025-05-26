@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-usuario',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -51,6 +51,7 @@ export class UserComponent {
   newUserEntry() {
     this.userService.newUser(this.userForm.value).subscribe(
       () => {
+        console.log('Registro nuevo Usuario')
         //Redirigiendo a la ruta actual /inicio y recargando la ventana
         this.router.navigate(['/inicio'])
           .then(() => {

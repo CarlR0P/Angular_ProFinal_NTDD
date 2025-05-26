@@ -1,21 +1,42 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Route } from '@angular/router';
-import { Router } from '@angular/router';
-
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { AutenticacionService } from '../../services/autenticacion.service';
+ 
 @Component({
   selector: 'app-menu-admin',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './menu-admin.component.html',
-  styleUrl: './menu-admin.component.css'
+  styleUrls: ['./menu-admin.component.css']
 })
-export class MenuAdminComponent {
-constructor(private router: Router){}
-
+export class MenuAdminComponent implements OnInit {
+  private router = inject(Router);
+  private authService = inject(AutenticacionService);
+ 
+  usuarioActual: any = null;
+  errorMensaje: string = '';
+ 
+  ngOnInit(): void {
+    // Llamada directa al backend para obtener el usuario actual sin usar token ni localStorage
+    this.authService.obtenerUsuarioActual().subscribe({
+      next: (res) => {
+        this.usuarioActual = res;
+        this.errorMensaje = '';
+      },
+      error: (err) => {
+        this.errorMensaje = err.error?.error || 'No se pudo obtener la información del usuario';
+        this.usuarioActual = null;
+      }
+    });
+  }
+ 
   get mostrarMenu(): boolean {
+    if (!this.usuarioActual) return false;
+ 
     const ruta = this.router.url;
-    return ruta.includes('/partida') || ruta.includes('/perfil-jugador') 
-    || ruta.includes('/historial-partidas') || ruta.includes('/inicio-jugador') || 
-    ruta.includes('/ruleta');
+ 
+    return this.usuarioActual.rol === 'administrador' &&
+      (ruta.includes('/pregunta') || ruta.includes('/categoria'));
   }
 }

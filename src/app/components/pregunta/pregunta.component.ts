@@ -12,9 +12,11 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class PreguntaComponent implements OnInit {
-  preguntas: any[] = [];
+  pregunta: any= [];
+  preguntas: any = [];
   categorias: any[] = [];
   categoriaSeleccionada: string | null = null;
+  hayPreguntas: boolean = false;
 
   // Formulario
   form: {
@@ -51,13 +53,15 @@ export class PreguntaComponent implements OnInit {
       .subscribe((data: any[]) => this.categorias = data);
   }
 
-  cargarPreguntas(): void {
-    const obs = this.categoriaSeleccionada
+
+  cargarPreguntas() {
+    /*const obs = this.categoriaSeleccionada
       ? this.preguntaService.getPreguntasPorCategoria(this.categoriaSeleccionada)
       : this.preguntaService.getPreguntas();
-
-    obs.subscribe((data: any[]) => {
-      this.preguntas = data;
+*/
+    this.preguntaService.getPreguntas().subscribe((data: {}) => {
+      //this.preguntas = data;
+      //this.hayPreguntas = true;
     });
   }
 

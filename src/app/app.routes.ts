@@ -6,6 +6,9 @@ import { InicioSesionComponent } from './components/inicio-sesion/inicio-sesion.
 import { RegistroComponent } from './components/registro/registro.component';
 import { PreguntaComponent } from './components/pregunta/pregunta.component';
 import { CategoriaComponent } from './components/categoria/categoria.component';
+import { PartidaInicioComponent } from './components/partida-inicio/partida-inicio.component';
+import { PartidaPreguntaComponent } from './components/partida-pregunta/partida-pregunta.component';
+import { PartidaRuletaComponent } from './components/partida-ruleta/partida-ruleta.component';
 import { MenuAdminComponent } from './components/menu-admin/menu-admin.component';
 
 export const routes: Routes = [
@@ -16,5 +19,8 @@ export const routes: Routes = [
     {path: 'pregunta', component: PreguntaComponent},
     {path: 'categoria', component: CategoriaComponent},
     {path: 'menu-jugador', component: MenuJugadorComponent},
+    {path: 'partidaInicio', component: PartidaInicioComponent},
+    {path: 'partidaPregunta', component: PartidaPreguntaComponent},
+    {path: 'partidaRuleta', component: PartidaRuletaComponent},
     {path: 'menu-admin', component: MenuAdminComponent}
 ];

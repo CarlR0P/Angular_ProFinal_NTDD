@@ -1,0 +1,45 @@
+<div *ngIf="usuario">
+
+    <h2 class="text-center">Mi Perfil</h2>
+
+    <div class="row mt-4">
+        <!-- Columna izquierda: datos -->
+        <div class="col-md-6">
+            <div class="perfil-container">
+                <div class="perfil-form">
+
+                    <div class="form-field">
+                        <label for="nombre">Nombre de Usuario</label>
+                        <input type="text" id="nombreUsuario" [value]="usuario?.nombreUsuario" readonly>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" [value]="usuario?.nombre" readonly>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="nombre">Apellido</label>
+                        <input type="text" id="apellido" [value]="usuario?.apellido" readonly>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="nombre">Contraseña</label>
+                        <input type="text" id="clave" value="••••••••••" readonly disabled>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Columna derecha: foto -->
+        <div class="col-md-6 text-center">
+            <img src="https://wallpapers.com/images/hd/best-profile-pictures-wqm0z83avja0y31c.jpg"
+                alt="Imagen de Perfil" width="300" height="400">
+            <p></p>
+        </div>
+
+    </div>
+</div>

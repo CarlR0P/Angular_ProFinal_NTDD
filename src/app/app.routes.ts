@@ -10,6 +10,7 @@ import { PartidaInicioComponent } from './components/partida-inicio/partida-inic
 import { PartidaRuletaComponent } from './components/partida-ruleta/partida-ruleta.component';
 import { MenuAdminComponent } from './components/menu-admin/menu-admin.component';
 import { UserComponent } from './components/usuario/usuario.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 
 export const routes: Routes = [
     {path: '', component: InicioComponent},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     {path: 'partidaInicio', component: PartidaInicioComponent},
     {path: 'partidaRuleta', component: PartidaRuletaComponent},
     {path: 'menu-admin', component: MenuAdminComponent},
-    {path: 'usuario', component: UserComponent}
+    {path: 'usuario', component: UserComponent},
+    {path: 'miPerfil', component: MiPerfilComponent}
 ];

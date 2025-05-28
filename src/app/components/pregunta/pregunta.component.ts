@@ -55,15 +55,15 @@ export class PreguntaComponent implements OnInit {
 
 
   cargarPreguntas() {
-    /*const obs = this.categoriaSeleccionada
+    const obs = this.categoriaSeleccionada
       ? this.preguntaService.getPreguntasPorCategoria(this.categoriaSeleccionada)
       : this.preguntaService.getPreguntas();
-*/
-    this.preguntaService.getPreguntas().subscribe((data: {}) => {
-      //this.preguntas = data;
-      //this.hayPreguntas = true;
-    });
-  }
+
+    obs.subscribe((data: {}) => {
+    this.preguntas = data;
+    this.hayPreguntas = this.preguntas.length > 0;
+  });
+}
 
   eliminarPregunta(id: string): void {
     if (confirm('¿Estás seguro de eliminar esta pregunta?')) {

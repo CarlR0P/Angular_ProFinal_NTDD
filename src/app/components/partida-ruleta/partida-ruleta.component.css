@@ -48,12 +48,16 @@ canvas {
   align-items: center;
 }
 
- #ruleta-wrapper {
+#ruleta-wrapper {
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  transition: transform 4s ease-out;
+  transform: rotate(0deg);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
-}
+} 
 
 #ruleta {
   border: 4px solid white;

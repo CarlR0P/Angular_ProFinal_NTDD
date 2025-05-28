@@ -11,9 +11,10 @@ export class PartidaService {
 
   constructor(private http: HttpClient) {}
 
-  crearPartida(idUsuario: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/partidas`, { idUsuario });
-  }
+  crearPartida(idUsuario: string) {
+     console.log('📡 Enviando POST a /api/partidas con:', idUsuario);
+  return this.http.post<any>('http://localhost:3000/api/partidas', { idUsuario });
+}
 
   obtenerCategoriaAleatoria(idPartida: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/partidas/${idPartida}/ruleta`);

@@ -29,10 +29,12 @@ export class InicioSesionComponent {
       next: res => {
         const token = res.token;
         localStorage.setItem('token', token);
-
+       
         // Decodificar rol del JWT
         const jwtPayload = JSON.parse(atob(token.split('.')[1]));
         const rol = (jwtPayload.rol || '').toLowerCase();
+
+        localStorage.setItem('idUsuario', jwtPayload.id);
 
         this.esError = false;
         this.mensaje = res.message;

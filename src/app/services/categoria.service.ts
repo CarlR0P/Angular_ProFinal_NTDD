@@ -35,7 +35,10 @@ export class CategoriaService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
- getCategoriaRuleta(idPartida: string): Observable<any> {
-  return this.http.get<any>(`http://localhost:3000/api/partidas/${idPartida}/ruleta`);
+getCategoriaRuleta(idPartida: string) {
+  return this.http.get<any>(`/api/partidas/${idPartida}/categoria`);
+}
+getPreguntaAleatoria(idCategoria: string) {
+  return this.http.get<any>(`/api/preguntas/aleatoria/${idCategoria}`);
 }
 }

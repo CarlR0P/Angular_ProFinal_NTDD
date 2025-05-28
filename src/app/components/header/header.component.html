@@ -16,6 +16,7 @@
         <!-- Menú para usuarios autenticados -->
         <ng-container *ngIf="isLoggedIn">
           <a class="btn btn-secondary" routerLink="/miPerfil">Mi Perfil</a>
+          <button class="btn btn-secondary" (click)="irAlMenu()">Menú</button>
           <button class="btn btn-outline-light" (click)="logout()">Cerrar Sesión</button>
         </ng-container>
       </div>

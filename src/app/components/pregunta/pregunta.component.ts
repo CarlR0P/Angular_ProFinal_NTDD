@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class PreguntaComponent implements OnInit {
-  pregunta: any= [];
+  pregunta: any = [];
   preguntas: any = [];
   categorias: any[] = [];
   categoriaSeleccionada: string | null = null;
@@ -25,15 +25,15 @@ export class PreguntaComponent implements OnInit {
     categoria: string;
     opciones: { opcion: string; correcta: boolean }[];
   } = {
-    enunciado: '',
-    categoria: '',
-    opciones: [
-      { opcion: '', correcta: false },
-      { opcion: '', correcta: false },
-      { opcion: '', correcta: false },
-      { opcion: '', correcta: false }
-    ]
-  };
+      enunciado: '',
+      categoria: '',
+      opciones: [
+        { opcion: '', correcta: false },
+        { opcion: '', correcta: false },
+        { opcion: '', correcta: false },
+        { opcion: '', correcta: false }
+      ]
+    };
   indiceCorrecto: number | null = null;
   preguntaEditando: any = null;
 
@@ -41,7 +41,7 @@ export class PreguntaComponent implements OnInit {
     private router: Router,
     private preguntaService: PreguntaService,
     private categoriaService: CategoriaService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cargarCategorias();
@@ -60,10 +60,10 @@ export class PreguntaComponent implements OnInit {
       : this.preguntaService.getPreguntas();
 
     obs.subscribe((data: {}) => {
-    this.preguntas = data;
-    this.hayPreguntas = this.preguntas.length > 0;
-  });
-}
+      this.preguntas = data;
+      this.hayPreguntas = this.preguntas.length > 0;
+    });
+  }
 
   eliminarPregunta(id: string): void {
     if (confirm('¿Estás seguro de eliminar esta pregunta?')) {

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { MenuJugadorComponent } from './components/menu-jugador/menu-jugador.component';
-import { HistorialPartidasComponent } from './components/historial-partidas/historial-partidas.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { InicioSesionComponent } from './components/inicio-sesion/inicio-sesion.component';
 import { RegistroComponent } from './components/registro/registro.component';
@@ -11,6 +10,9 @@ import { PartidaRuletaComponent } from './components/partida-ruleta/partida-rule
 import { MenuAdminComponent } from './components/menu-admin/menu-admin.component';
 import { UserComponent } from './components/usuario/usuario.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { PartidaPreguntaComponent } from './components/partida-pregunta/partida-pregunta.component';
+import { PartidaResumenComponent } from './components/partida-resumen/partida-resumen.component';
+import { HistorialPartidasComponent } from './components/historial-partidas/historial-partidas.component';
 
 export const routes: Routes = [
     {path: '', component: InicioComponent},
@@ -25,5 +27,8 @@ export const routes: Routes = [
     {path: 'partidaRuleta', component: PartidaRuletaComponent},
     {path: 'menu-admin', component: MenuAdminComponent},
     {path: 'usuario', component: UserComponent},
-    {path: 'miPerfil', component: MiPerfilComponent}
+    {path: 'miPerfil', component: MiPerfilComponent},
+    {path: 'partidaPregunta', component: PartidaPreguntaComponent},
+    {path: 'partidaResumen', component: PartidaResumenComponent},
+    {path: 'partidaHistorial', component: HistorialPartidasComponent}
 ];

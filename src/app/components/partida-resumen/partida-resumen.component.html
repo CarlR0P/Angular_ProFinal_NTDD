@@ -1,0 +1,27 @@
+<div class="resumen-container">
+  <h2 class="titulo">📊 Resumen de la Partida</h2>
+
+  <div *ngIf="resumen" class="resumen-estadisticas">
+    <p class="correctas">✅ Correctas: {{ resumen.totalPreguntas - resumen.respuestasIncorrectas.length }}</p>
+    <p class="incorrectas">❌ Incorrectas: {{ resumen.respuestasIncorrectas.length }}</p>
+    <p class="totales">📌 Total respondidas: {{ resumen.totalPreguntas }}</p>
+  </div>
+
+  <div class="detalle-respuestas">
+    <h3>📌 Detalle de Respuestas Incorrectas</h3>
+    <ul *ngIf="resumen.respuestasIncorrectas.length > 0; else sinErrores">
+      <li *ngFor="let r of resumen.respuestasIncorrectas" class="respuesta-item">
+        <p><strong>Pregunta:</strong> {{ r.pregunta }}</p>
+        <p><strong>Tu respuesta:</strong> {{ r.respuestaUsuario }}</p>
+        <p><strong>Correcta:</strong> {{ r.respuestaCorrecta }}</p>
+      </li>
+    </ul>
+    <ng-template #sinErrores>
+      <p>🎉 ¡No tuviste errores!</p>
+    </ng-template>
+  </div>
+
+  <button class="boton-volver" (click)="volverAlInicio()">🔁 Volver al inicio</button>
+</div>
+  
+

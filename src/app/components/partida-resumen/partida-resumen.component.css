@@ -1,0 +1,67 @@
+.resumen-container {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff0a;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  color: #f0f0f0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+}
+
+.resumen-estadisticas p {
+  font-size: 1.2rem;
+  margin: 0.3rem 0;
+}
+
+.correctas {
+  color: #00e676;
+}
+
+.incorrectas {
+  color: #ff5252;
+}
+
+.totales {
+  color: #90caf9;
+}
+
+.detalle-respuestas {
+  margin-top: 2rem;
+}
+
+.respuesta-item {
+  background-color: #1e1e2f;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #444;
+}
+
+.respuesta-item p {
+  margin: 0.4rem 0;
+}
+
+.boton-volver {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.7rem 1.5rem;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.boton-volver:hover {
+  background-color: #1976d2;
+}

@@ -24,14 +24,10 @@ export class PartidaService {
     return this.http.get(`${this.apiUrl}/partidas/${idPartida}/categoria/${idCategoria}/pregunta`);
   }
 
-  responderPregunta(idPartida: string, idPregunta: string, respuestaSeleccionada: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/partidas/${idPartida}/responder`, {
-      idPregunta,
-      respuestaSeleccionada
-    });
-  }
-
   obtenerResumen(idPartida: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/partidas/${idPartida}/resumen`);
   }
+  responderPregunta(data: any) {
+  return this.http.post('/api/partida/responder', data);
+}
 }

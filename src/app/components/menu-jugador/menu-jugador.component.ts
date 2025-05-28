@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AutenticacionService } from '../../services/autenticacion.service';
- 
+ import { HistorialPartidasComponent } from '../historial-partidas/historial-partidas.component';
+
 @Component({
   selector: 'app-menu-jugador',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HistorialPartidasComponent],
   templateUrl: './menu-jugador.component.html',
   styleUrls: ['./menu-jugador.component.css']
 })
@@ -39,4 +40,7 @@ export class MenuJugadorComponent implements OnInit {
     return this.usuarioActual.rol === 'jugador' &&
       (ruta.includes('/partida-inicio') || ruta.includes('/historial-partidas'));
   }
+  irAlHistorial() {
+  this.router.navigate(['/partidaHistorial']);
+}
 }

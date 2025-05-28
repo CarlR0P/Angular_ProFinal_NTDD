@@ -6,6 +6,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { CategoriaService } from '../../services/categoria.service';
 import { ToastrService } from 'ngx-toastr';
+import { TemporizadorService } from '../../services/temporizador.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,8 +15,9 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './partida-ruleta.component.html',
   styleUrls: ['./partida-ruleta.component.css']
 })
-export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy {
-  tiempoRestante: number = 60;
+export class PartidaRuletaComponent implements OnInit, OnDestroy {
+  tiempoRestante = 0;
+  tiempoSub!: Subscription;
   intervalId: any;
   categorias: any[] = [];
   angle: number = 0;
@@ -25,11 +28,18 @@ export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy 
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private temporizadorService: TemporizadorService
   ) { }
 
   ngOnInit(): void {
-    this.iniciarTemporizador();
+    this.temporizadorService.iniciarTemporizador();
+    this.tiempoSub = this.temporizadorService.tiempoRestante$.subscribe(tiempo => {
+      this.tiempoRestante = tiempo;
+      if (tiempo <= 0) {
+        this.finalizarPartida();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -47,17 +57,20 @@ export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
+  
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this.tiempoSub) {
+      this.tiempoSub.unsubscribe();
     }
   }
+
+
 
   esNavegador(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
-  iniciarTemporizador(): void {
+  iniciarTemporizador() {
     this.intervalId = setInterval(() => {
       this.tiempoRestante--;
       if (this.tiempoRestante <= 0) {
@@ -74,7 +87,11 @@ export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy 
 
     const idUsuario = localStorage.getItem('idUsuario');
     if (idUsuario) {
-      this.router.navigate(['/resultados']);
+      const preguntasRespondidasStr = localStorage.getItem('preguntasRespondidas');
+      const preguntasRespondidas = preguntasRespondidasStr ? JSON.parse(preguntasRespondidasStr) : [];
+
+      localStorage.setItem('resumenPartida', JSON.stringify(preguntasRespondidas));
+      this.router.navigate(['/partidaResumen']);
     } else {
       this.toastr.warning('No se encontró el id del usuario. Redirección fallida.');
     }
@@ -115,8 +132,13 @@ export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy 
             this.categoriaService.getPreguntaAleatoria(idCategoria).subscribe({
               next: res => {
                 console.log('✅ Pregunta aleatoria:', res);
-                // Puedes almacenar la pregunta en una variable para mostrarla luego
-                // this.preguntaActual = res.pregunta;
+                if (res.preguntaSeleccionada) {
+                  localStorage.setItem('pregunta', JSON.stringify(res.preguntaSeleccionada));
+                  console.log('🔁 Redirigiendo...')
+                  this.router.navigate(['/partidaPregunta']);
+                } else {
+                  console.error('❌ No se encontró preguntaSeleccionada en la respuesta.');
+                }
               },
               error: err => {
                 console.error('❌ Error al obtener pregunta aleatoria:', err);

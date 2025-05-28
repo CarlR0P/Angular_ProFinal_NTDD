@@ -1,1 +1,13 @@
-<p>historial-partidas works!</p>
+<h2>Historial de partidas</h2>
+
+<div *ngIf="partidas.length > 0; else sinPartidas">
+  <div *ngFor="let partida of partidas" class="partida-card">
+    <p><strong>Fecha:</strong> {{ partida.fechaInicio | date:'short' }}</p>
+    <p><strong>Respuestas correctas:</strong> {{ partida.correctas }}</p>
+    <p><strong>Respuestas incorrectas:</strong> {{ partida.incorrectas }}</p>
+  </div>
+</div>
+
+<ng-template #sinPartidas>
+  <p>No hay partidas registradas aún.</p>
+</ng-template>

@@ -1,0 +1,24 @@
+<div *ngIf="pregunta" class="contenedor-pregunta">
+  <h2 class="titulo">{{ pregunta.enunciado }}</h2>
+
+  <div class="opciones-grid">
+    <button 
+      *ngFor="let opcion of pregunta.opciones"
+      (click)="seleccionarOpcion(opcion)" 
+      [ngClass]="{'seleccionada': opcion === opcionSeleccionada}"
+      class="boton-opcion">
+      {{ opcion.opcion }}
+    </button>
+  </div>
+
+  <div *ngIf="opcionSeleccionada" class="resultado">
+    <p>Has seleccionado: <strong>{{ opcionSeleccionada.opcion }}</strong></p>
+
+    <button class="boton-responder" (click)="responder()">Responder</button>
+
+    <div *ngIf="yaRespondio">
+      <p *ngIf="opcionSeleccionada.correcta; else incorrecta">✅ ¡Correcto!</p>
+      <ng-template #incorrecta><p>❌ Incorrecto</p></ng-template>
+    </div>
+  </div>
+</div>

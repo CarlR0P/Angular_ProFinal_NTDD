@@ -36,7 +36,7 @@ export class CategoriaService {
   }
 
 getCategoriaRuleta(idPartida: string) {
-  return this.http.get<any>(`/api/partidas/${idPartida}/categoria`);
+  return this.http.get<any>(`/api/partidas/${idPartida}/ruleta/categoria`);
 }
 getPreguntaAleatoria(idCategoria: string) {
   return this.http.get<any>(`/api/preguntas/aleatoria/${idCategoria}`);

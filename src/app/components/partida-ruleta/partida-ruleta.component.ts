@@ -1,133 +1,133 @@
-  import {
-    Component, OnInit, Inject, AfterViewInit, OnDestroy, ChangeDetectorRef, Renderer2
-  } from '@angular/core';
-  import { PLATFORM_ID } from '@angular/core';
-  import { isPlatformBrowser } from '@angular/common';
-  import { Router } from '@angular/router';
-  import { CategoriaService } from '../../services/categoria.service';
-  import { ToastrService } from 'ngx-toastr';
+import {
+  Component, OnInit, Inject, AfterViewInit, OnDestroy, ChangeDetectorRef, Renderer2
+} from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { CategoriaService } from '../../services/categoria.service';
+import { ToastrService } from 'ngx-toastr';
 
 
-  @Component({
-    selector: 'app-partida-ruleta',
-    templateUrl: './partida-ruleta.component.html',
-    styleUrls: ['./partida-ruleta.component.css']
-  })
-  export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy {
-    tiempoRestante: number = 60;
-    intervalId: any;
-    categorias: any[] = [];
-    angle: number = 0;
+@Component({
+  selector: 'app-partida-ruleta',
+  templateUrl: './partida-ruleta.component.html',
+  styleUrls: ['./partida-ruleta.component.css']
+})
+export class PartidaRuletaComponent implements OnInit, AfterViewInit, OnDestroy {
+  tiempoRestante: number = 60;
+  intervalId: any;
+  categorias: any[] = [];
+  angle: number = 0;
 
-    constructor(
-      private categoriaService: CategoriaService,
-      @Inject(PLATFORM_ID) private platformId: Object,
-      private renderer: Renderer2,
-      private cd: ChangeDetectorRef,
-      private router: Router,
-      private toastr: ToastrService
-    ) {}
+  constructor(
+    private categoriaService: CategoriaService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private renderer: Renderer2,
+    private cd: ChangeDetectorRef,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
-    ngOnInit(): void {
-      this.iniciarTemporizador();
-    }
-
-    ngAfterViewInit(): void {
-      if (!this.esNavegador()) return;
-
-      this.categoriaService.getCategorias().subscribe({
-        next: (categorias) => {
-          this.categorias = categorias;
-          this.cd.detectChanges();
-          this.dibujarRuleta();
-        },
-        error: (error) => {
-          console.error('Error al cargar categorías:', error);
-        }
-      });
-    }
-
-    ngOnDestroy(): void {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-      }
-    }
-
-    esNavegador(): boolean {
-      return isPlatformBrowser(this.platformId);
-    }
-
-    iniciarTemporizador(): void {
-      this.intervalId = setInterval(() => {
-        this.tiempoRestante--;
-        if (this.tiempoRestante <= 0) {
-          clearInterval(this.intervalId);
-          this.finalizarPartida();
-        }
-      }, 1000);
-    }
-
-    finalizarPartida(): void {
-      if (!this.esNavegador()) return;
-
-      this.toastr.info('⏰ ¡Se acabó el tiempo!');
-
-      const idUsuario = localStorage.getItem('idUsuario');
-      if (idUsuario) {
-        this.router.navigate(['/resultados']);
-      } else {
-        this.toastr.warning('No se encontró el id del usuario. Redirección fallida.');
-      }
-    }
-
-    girar(): void {
-      if (!this.esNavegador()) return;
-
-  const idPartida = localStorage.getItem('idPartida');
-  console.log('🧩 idPartida desde localStorage:', idPartida); // 👈
-
-  if (!idPartida) {
-    console.error('❌ No hay idPartida en localStorage');
-    return;
+  ngOnInit(): void {
+    this.iniciarTemporizador();
   }
 
-      this.categoriaService.getCategoriaRuleta(idPartida).subscribe({
-        next: (res) => {
-          const categoriaSeleccionada = res.categoriaSeleccionada;
-          const indice = this.categorias.findIndex(c => c._id === categoriaSeleccionada._id);
-          if (indice === -1) return;
+  ngAfterViewInit(): void {
+    if (!this.esNavegador()) return;
 
-          const num = this.categorias.length;
-          const anglePerCategory = 360 / num;
-          const vueltas = 5;
-          this.angle = 360 * vueltas + indice * anglePerCategory;
+    this.categoriaService.getCategorias().subscribe({
+      next: (categorias) => {
+        this.categorias = categorias;
+        this.cd.detectChanges();
+        this.dibujarRuleta();
+      },
+      error: (error) => {
+        console.error('Error al cargar categorías:', error);
+      }
+    });
+  }
 
-          const ruleta = document.getElementById('ruleta-wrapper');
-          if (ruleta) {
-            ruleta.style.transition = 'transform 4s ease-out';
-            ruleta.style.transform = `rotate(${this.angle}deg)`;
-
-            setTimeout(() => {
-  this.toastr.success(`🎉 Categoría: ${categoriaSeleccionada.nombre}`);
-
-  // 🔽 Aquí llamamos al backend para obtener una pregunta aleatoria de esa categoría
-  const idCategoria = String(categoriaSeleccionada._id);
-  this.categoriaService.getPreguntaAleatoria(idCategoria).subscribe({
-    next: res => {
-      console.log('✅ Pregunta aleatoria:', res);
-      // Puedes almacenar la pregunta en una variable para mostrarla luego
-      // this.preguntaActual = res.pregunta;
-    },
-    error: err => {
-      console.error('❌ Error al obtener pregunta aleatoria:', err);
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
     }
-  });
-}, 4000);
-          }
-        },
-        error: (err) => console.error('Error al girar la ruleta:', err)
-      });
+  }
+
+  esNavegador(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  iniciarTemporizador(): void {
+    this.intervalId = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.intervalId);
+        this.finalizarPartida();
+      }
+    }, 1000);
+  }
+
+  finalizarPartida(): void {
+    if (!this.esNavegador()) return;
+
+    this.toastr.info('⏰ ¡Se acabó el tiempo!');
+
+    const idUsuario = localStorage.getItem('idUsuario');
+    if (idUsuario) {
+      this.router.navigate(['/resultados']);
+    } else {
+      this.toastr.warning('No se encontró el id del usuario. Redirección fallida.');
     }
+  }
+
+  girar(): void {
+    if (!this.esNavegador()) return;
+
+    const idPartida = localStorage.getItem('idPartida');
+    console.log('🧩 idPartida desde localStorage:', idPartida); // 👈
+
+    if (!idPartida) {
+      console.error('❌ No hay idPartida en localStorage');
+      return;
+    }
+
+    this.categoriaService.getCategoriaRuleta(idPartida).subscribe({
+      next: (res) => {
+        const categoriaSeleccionada = res.categoriaSeleccionada;
+        const indice = this.categorias.findIndex(c => c._id === categoriaSeleccionada._id);
+        if (indice === -1) return;
+
+        const num = this.categorias.length;
+        const anglePerCategory = 360 / num;
+        const vueltas = 5;
+        this.angle = 360 * vueltas + indice * anglePerCategory;
+
+        const ruleta = document.getElementById('ruleta-wrapper');
+        if (ruleta) {
+          ruleta.style.transition = 'transform 4s ease-out';
+          ruleta.style.transform = `rotate(${this.angle}deg)`;
+
+          setTimeout(() => {
+            this.toastr.success(`🎉 Categoría: ${categoriaSeleccionada.nombre}`);
+
+            // 🔽 Aquí llamamos al backend para obtener una pregunta aleatoria de esa categoría
+            const idCategoria = String(categoriaSeleccionada._id);
+            this.categoriaService.getPreguntaAleatoria(idCategoria).subscribe({
+              next: res => {
+                console.log('✅ Pregunta aleatoria:', res);
+                // Puedes almacenar la pregunta en una variable para mostrarla luego
+                // this.preguntaActual = res.pregunta;
+              },
+              error: err => {
+                console.error('❌ Error al obtener pregunta aleatoria:', err);
+              }
+            });
+          }, 4000);
+        }
+      },
+      error: (err) => console.error('Error al girar la ruleta:', err)
+    });
+  }
 
   dibujarRuleta(): void {
     if (!this.esNavegador()) return;

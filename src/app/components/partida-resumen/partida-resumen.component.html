@@ -1,7 +1,7 @@
-<div class="resumen-container">
+<div class="resumen-container" *ngIf="resumen; else cargando">
   <h2 class="titulo">📊 Resumen de la Partida</h2>
 
-  <div *ngIf="resumen" class="resumen-estadisticas">
+  <div class="resumen-estadisticas">
     <p class="correctas">✅ Correctas: {{ resumen.totalPreguntas - resumen.respuestasIncorrectas.length }}</p>
     <p class="incorrectas">❌ Incorrectas: {{ resumen.respuestasIncorrectas.length }}</p>
     <p class="totales">📌 Total respondidas: {{ resumen.totalPreguntas }}</p>
@@ -23,5 +23,8 @@
 
   <button class="boton-volver" (click)="volverAlInicio()">🔁 Volver al inicio</button>
 </div>
-  
+
+<ng-template #cargando>
+  <p>Cargando resumen...</p>
+</ng-template>
 
